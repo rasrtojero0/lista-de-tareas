@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/d7e3038e1e.js" crossorigin="anonymous"></script>
+<html>
+<head>
+    <title>Lista de Tareas</title>
+
+</head>
+<body>
+  
+    <div class="container">
+        <div>
+
+            <div class="form-control caja">
+                <input class="input input-alt" placeholder="Agregar tarea"  id="nuevaTarea"  required="" type="text">
+                <span class="input-border input-border-alt"></span>
+             
+                <button type="button" id="btn" onclick="agregarTarea()" class="btn btn-primary">Agregar</button>
+              
+              </div>
+              
+              
+           
+            
+            <ul id="listaTareas"></ul>
+            <style>
+         
+            </style>
+        </head>
+        <body>
+
+        </body>
+        </html>
+        </div>
+    </div>
+
+    <script>
+    
+    var tarea = document.getElementById("nuevaTarea")
+    var submit = document
+    let arrayOfTasks = [];
+
+    if (localStorage.getItem("tasks")) {
+    arrayOfTasks = JSON.parse(localStorage.getItem("tasks"));
+    }
+
+    getDataFromLocalStor.getElementById("btn");
+
+    submit.onclick = function () {
+  if (tarea.value !== "") {
+    addTaskToArray(tarea.value); // Add Task To Array Of Tasks
+    tarea.value = ""; // Empty Input Field
+  }
+};
+
+// -----------------------------------------------------------------------------------------------------------
+        function agregarTarea() {
+            var tarea = document.getElementById("nuevaTarea").value;
+            if (tarea.trim() !== "") {
+                var lista = document.getElementById("listaTareas");
+                var nuevaTareaElemento = document.createElement("li");
+                nuevaTareaElemento.innerHTML = `
+                    <span class="task">${tarea}</span>
+                    <button onclick="editarTarea(this)" class="boton-opaco-solida"> &#x270e</button>
+                    <button onclick="eliminarTarea(this)" type="button" class="boton-opaco-solida">&#x2715</button>
+                    <button onclick="marcarComoRealizada(this)" type="button" class="boton-opaco-solida">&#x2713</button>
+                   
+                `;
+                lista.appendChild(nuevaTareaElemento);
+                document.getElementById("nuevaTarea").value = "";
+            }
+        }
+
+        function editarTarea(botonEditar) {
+            var tareaElemento = botonEditar.parentElement;
+            var spanElemento = tareaElemento.querySelector(".task");
+            var nuevaTarea = prompt("Editar tarea:", spanElemento.textContent);
+            if (nuevaTarea !== null) {
+                spanElemento.textContent = nuevaTarea;
+            }
+        }
+
+        function eliminarTarea(botonEliminar) {
+            var statusConfirm = confirm("¿Vas a eliminar la tarea?");
+            if (statusConfirm == true)
+            {
+                var tareaElemento = botonEliminar.parentElement;
+            tareaElemento.remove();
+            }
+            else
+            {
+               
+            }
+         
+        }
+
+        function marcarComoRealizada(botonRealizada) {
+            var tareaElemento = botonRealizada.parentElement;
+            var spanElemento = tareaElemento.querySelector(".task");
+            spanElemento.classList.toggle("done");
+        }
+
+        // ----------------------------------------------------------------------
+
+
+        function addDataToLocalStorageFrom(arrayOfTasks) {
+  window.localStorage.setItem("tasks", JSON.stringify(arrayOfTasks));
+}
+
+function getDataFromLocalStorage() {
+  let data = window.localStorage.getItem("tasks");
+  if (data) {
+    let tasks = JSON.parse(data);
+    addElementsToPageFrom(tasks);
+  }
+}
+
+function deleteTaskWith(taskId) {
+  // For Explain Only
+  // for (let i = 0; i < arrayOfTasks.length; i++) {
+  //   console.log(`${arrayOfTasks[i].id} === ${taskId}`);
+  // }
+  arrayOfTasks = arrayOfTasks.filter((task) => task.id != taskId);
+  addDataToLocalStorageFrom(arrayOfTasks);
+}
+
+function toggleStatusTaskWith(taskId) {
+  for (let i = 0; i < arrayOfTasks.length; i++) {
+    if (arrayOfTasks[i].id == taskId) {
+      arrayOfTasks[i].completed == false ? (arrayOfTasks[i].completed = true) : (arrayOfTasks[i].completed = false);
+    }
+  }
+  addDataToLocalStorageFrom(arrayOfTasks);
+}
+    </script>
+    <script src="todo.js"></script>
+</body>
+</html>
